@@ -36,7 +36,7 @@ public class CertificateTemplate implements Cloneable {
         metadata.put("certificateNumber", certificateNumber);
     }
 
-    // deep copy — a new HashMap is constructed so mutating the clone never affects the prototype
+    // new HashMap means changes to the clone won't affect the original template
     @Override
     public CertificateTemplate clone() {
         try {

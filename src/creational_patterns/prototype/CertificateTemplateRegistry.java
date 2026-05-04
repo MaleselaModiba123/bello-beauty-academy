@@ -11,7 +11,7 @@ public class CertificateTemplateRegistry {
         prototypes.put(key, template);
     }
 
-    // always returns a clone — the master prototype is never exposed directly
+    // always return a clone, never the original
     public CertificateTemplate getClone(String key) {
         CertificateTemplate template = prototypes.get(key);
         if (template == null)
