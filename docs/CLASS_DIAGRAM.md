@@ -1,9 +1,9 @@
 # Class Diagram
 ## Bello Beauty Academy Platform
 
-**Document Version:** 1.0
-**Date:** March 2026
-**Status:** Draft
+**Document Version:** 2.0
+**Date:** May 2026
+**Status:** Updated — Assignment 11
 
 ---
 
@@ -11,6 +11,7 @@
 
 1. [Class Diagram](#1-class-diagram)
 2. [Design Decisions](#2-design-decisions)
+3. [Repository Layer Class Diagram](#3-repository-layer-class-diagram)
 
 ---
 
@@ -286,3 +287,190 @@ Notes have been added to the three most behaviourally complex entities (`Enrollm
 - `Session` is distinct from `Course`. A course is the programme definition; sessions are the individual scheduled class meetings that make up that course's delivery.
 - The `Administrator` class does not hold a direct object reference to confirmed payments. Confirmation is tracked on the `Payment` entity via the `confirmedBy` attribute, which stores the administrator's user ID. This avoids tight coupling between `Administrator` and `Payment`.
 - `CourseMaterial` records the `uploadedBy` attribute as a String (user ID) rather than a direct object reference, to preserve traceability without introducing an additional relationship line into the diagram.
+
+---
+
+## 3. Repository Layer Class Diagram
+
+This section was added in Assignment 11. It shows the generic repository interface, the four entity-specific interfaces, the in-memory implementations, the stub implementations for future backends, and the RepositoryFactory. It also shows how the repository layer connects to the core domain entities from Section 1.
+
+```mermaid
+classDiagram
+
+    %% Domain entities
+    class Student {
+        -userId : String
+        -name : String
+        -email : String
+        +getUserId() String
+        +getEmail() String
+        +getActiveEnrollmentCount() int
+    }
+
+    class Course {
+        -courseId : String
+        -title : String
+        -category : CourseCategory
+        -active : Boolean
+        +getCourseId() String
+        +getCategory() CourseCategory
+        +isActive() Boolean
+    }
+
+    class Enrollment {
+        -enrollmentId : String
+        -status : EnrollmentStatus
+        +getEnrollmentId() String
+        +getStudent() Student
+        +getCourse() Course
+        +getStatus() EnrollmentStatus
+    }
+
+    class Certificate {
+        -certificateId : String
+        -certificateNumber : String
+        +getCertificateId() String
+        +getStudent() Student
+        +getCertificateNumber() String
+    }
+
+    %% Generic repository interface
+    class Repository {
+        <<interface>>
+        +save(T entity) void
+        +findById(ID id) Optional~T~
+        +findAll() List~T~
+        +delete(ID id) void
+    }
+
+    %% Entity-specific interfaces
+    class StudentRepository {
+        <<interface>>
+        +findByEmail(String) Optional~Student~
+        +findActiveStudents() List~Student~
+    }
+
+    class CourseRepository {
+        <<interface>>
+        +findActiveCourses() List~Course~
+        +findByCategory(CourseCategory) List~Course~
+    }
+
+    class EnrollmentRepository {
+        <<interface>>
+        +findByStudentId(String) List~Enrollment~
+        +findByCourseId(String) List~Enrollment~
+        +findByStatus(EnrollmentStatus) List~Enrollment~
+    }
+
+    class CertificateRepository {
+        <<interface>>
+        +findByStudentId(String) List~Certificate~
+        +findByCertificateNumber(String) Optional~Certificate~
+    }
+
+    %% In-memory implementations
+    class InMemoryStudentRepository {
+        -storage : Map~String, Student~
+        +save(Student) void
+        +findById(String) Optional~Student~
+        +findAll() List~Student~
+        +delete(String) void
+        +findByEmail(String) Optional~Student~
+        +findActiveStudents() List~Student~
+    }
+
+    class InMemoryCourseRepository {
+        -storage : Map~String, Course~
+        +save(Course) void
+        +findById(String) Optional~Course~
+        +findAll() List~Course~
+        +delete(String) void
+        +findActiveCourses() List~Course~
+        +findByCategory(CourseCategory) List~Course~
+    }
+
+    class InMemoryEnrollmentRepository {
+        -storage : Map~String, Enrollment~
+        +save(Enrollment) void
+        +findById(String) Optional~Enrollment~
+        +findAll() List~Enrollment~
+        +delete(String) void
+        +findByStudentId(String) List~Enrollment~
+        +findByCourseId(String) List~Enrollment~
+        +findByStatus(EnrollmentStatus) List~Enrollment~
+    }
+
+    class InMemoryCertificateRepository {
+        -storage : Map~String, Certificate~
+        +save(Certificate) void
+        +findById(String) Optional~Certificate~
+        +findAll() List~Certificate~
+        +delete(String) void
+        +findByStudentId(String) List~Certificate~
+        +findByCertificateNumber(String) Optional~Certificate~
+    }
+
+    %% Stub implementations
+    class DatabaseStudentRepository {
+        +save(Student) void
+        +findById(String) Optional~Student~
+        +findAll() List~Student~
+        +delete(String) void
+        +findByEmail(String) Optional~Student~
+        +findActiveStudents() List~Student~
+    }
+
+    class FileSystemCourseRepository {
+        +save(Course) void
+        +findById(String) Optional~Course~
+        +findAll() List~Course~
+        +delete(String) void
+        +findActiveCourses() List~Course~
+        +findByCategory(CourseCategory) List~Course~
+    }
+
+    %% Factory
+    class RepositoryFactory {
+        +getStudentRepository(String) StudentRepository
+        +getCourseRepository(String) CourseRepository
+        +getEnrollmentRepository(String) EnrollmentRepository
+        +getCertificateRepository(String) CertificateRepository
+    }
+
+    %% Entity interfaces extend generic interface
+    Repository <|-- StudentRepository
+    Repository <|-- CourseRepository
+    Repository <|-- EnrollmentRepository
+    Repository <|-- CertificateRepository
+
+    %% In-memory implementations
+    StudentRepository <|.. InMemoryStudentRepository
+    CourseRepository <|.. InMemoryCourseRepository
+    EnrollmentRepository <|.. InMemoryEnrollmentRepository
+    CertificateRepository <|.. InMemoryCertificateRepository
+
+    %% Stub implementations
+    StudentRepository <|.. DatabaseStudentRepository
+    CourseRepository <|.. FileSystemCourseRepository
+
+    %% Factory creates repositories
+    RepositoryFactory ..> StudentRepository : creates
+    RepositoryFactory ..> CourseRepository : creates
+    RepositoryFactory ..> EnrollmentRepository : creates
+    RepositoryFactory ..> CertificateRepository : creates
+
+    %% Repositories manage domain entities
+    StudentRepository ..> Student : manages
+    CourseRepository ..> Course : manages
+    EnrollmentRepository ..> Enrollment : manages
+    CertificateRepository ..> Certificate : manages
+```
+
+### 3.1 Design Decisions
+
+**Generic Repository interface:** Defining the four CRUD operations once on `Repository<T, ID>` means none of the entity-specific interfaces need to repeat them. Adding a new entity repository only requires a new interface that extends `Repository` and any entity-specific query methods.
+
+**Factory Pattern over Dependency Injection:** The `RepositoryFactory` keeps the codebase simple and self-contained without requiring a DI container. The factory achieves the same decoupling goal: the rest of the system asks the factory for a repository and never needs to know which implementation it gets back.
+
+**Stubs over full implementations:** The `DatabaseStudentRepository` and `FileSystemCourseRepository` stubs prove that the architecture supports future backends without any changes to the interfaces or the factory. A new developer can implement either stub fully by filling in the method bodies without touching any other class.
