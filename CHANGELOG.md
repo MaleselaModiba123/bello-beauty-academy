@@ -5,6 +5,57 @@ All notable changes to this project are documented in this file.
 
 ---
 
+## [Assignment 11] — May 2026
+
+### Added
+
+**Repository Interfaces: `src/repositories/`**
+- `Repository.java`: generic repository interface with four CRUD operations using type parameters T and ID
+- `StudentRepository.java`: extends Repository with findByEmail() and findActiveStudents()
+- `CourseRepository.java`: extends Repository with findActiveCourses() and findByCategory()
+- `EnrollmentRepository.java`: extends Repository with findByStudentId(), findByCourseId(), and findByStatus()
+- `CertificateRepository.java`: extends Repository with findByStudentId() and findByCertificateNumber()
+
+**In-Memory Implementations: `src/repositories/inmemory/`**
+- `InMemoryStudentRepository.java`: HashMap-based implementation of StudentRepository
+- `InMemoryCourseRepository.java`: HashMap-based implementation of CourseRepository
+- `InMemoryEnrollmentRepository.java`: HashMap-based implementation of EnrollmentRepository
+- `InMemoryCertificateRepository.java`: HashMap-based implementation of CertificateRepository
+
+**Stub Implementations**
+- `src/repositories/database/DatabaseStudentRepository.java`: stub for a future PostgreSQL-backed implementation
+- `src/repositories/filesystem/FileSystemCourseRepository.java`: stub for a future JSON filesystem-backed implementation
+
+**Factory**
+- `src/factories/RepositoryFactory.java`: returns the correct repository implementation based on a storage type string (MEMORY, DATABASE, FILESYSTEM)
+
+**Unit Tests: `tests/`**
+- `TestInMemoryRepositories.java`: 44 JUnit 5 tests covering save, findById, findAll, delete, all entity-specific query methods, null inputs, empty repository behaviour, and duplicate saves across all four in-memory repositories
+
+### Updated
+
+**Documentation**
+- `docs/CLASS_DIAGRAM.md`: updated to version 2.0 with Section 3 added showing the full repository layer class diagram including interfaces, implementations, stubs, and factory
+- `README.md`: updated with repository layer section, updated repository structure tree, and updated documentation table
+- `CHANGELOG.md`: this entry
+
+### GitHub Project Board
+
+A new **Assignment 11** milestone was created to track all work for this assignment.
+
+Seven issues were created on the Assignment 11 milestone and linked to Project Board 5:
+- #61 Design generic Repository interface
+- #62 Add entity-specific repository interfaces
+- #63 Implement in-memory repositories with HashMap
+- #64 Implement RepositoryFactory for storage abstraction
+- #65 Add database and filesystem stub implementations
+- #66 Write unit tests for repository layer
+- #67 Update README and CHANGELOG for Assignment 11
+
+All issues are assigned, linked to the Assignment 11 milestone, and moved to Done on the Kanban board.
+
+---
+
 ## [Assignment 10] — May 2026
 
 ### Added
