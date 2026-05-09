@@ -81,7 +81,29 @@ bello-beauty-academy/
 │   ├── TestAbstractFactory.java
 │   ├── TestBuilder.java
 │   ├── TestPrototype.java
-│   └── TestSingleton.java
+│   ├── TestSingleton.java
+│   └── TestInMemoryRepositories.java
+│
+├── src/
+│   └── repositories/                   ← Repository interfaces and implementations
+│       ├── Repository.java
+│       ├── StudentRepository.java
+│       ├── CourseRepository.java
+│       ├── EnrollmentRepository.java
+│       ├── CertificateRepository.java
+│       ├── inmemory/
+│       │   ├── InMemoryStudentRepository.java
+│       │   ├── InMemoryCourseRepository.java
+│       │   ├── InMemoryEnrollmentRepository.java
+│       │   └── InMemoryCertificateRepository.java
+│       ├── database/
+│       │   └── DatabaseStudentRepository.java
+│       └── filesystem/
+│           └── FileSystemCourseRepository.java
+│
+├── src/
+│   └── factories/                      ← RepositoryFactory for storage abstraction
+│       └── RepositoryFactory.java
 │
 └── docs/
     ├── SPECIFICATION.md
@@ -120,7 +142,7 @@ bello-beauty-academy/
 | [ACTIVITY_DIAGRAMS.md](./docs/ACTIVITY_DIAGRAMS.md) | Activity workflow diagrams for 8 key system workflows |
 | [ASSIGNMENT8_REFLECTION.md](./docs/ASSIGNMENT8_REFLECTION.md) | Reflection on object state modeling and activity workflow modeling |
 | [DOMAIN_MODEL.md](./docs/DOMAIN_MODEL.md) | Domain model with core entities, attributes, methods, business rules, and relationships |
-| [CLASS_DIAGRAM.md](./docs/CLASS_DIAGRAM.md) | Full Mermaid.js class diagram with design decisions and multiplicity explanations |
+| [CLASS_DIAGRAM.md](./docs/CLASS_DIAGRAM.md) | Full Mermaid.js class diagram with design decisions, multiplicity explanations, and repository layer diagram (updated Assignment 11) |
 | [ASSIGNMENT9_REFLECTION.md](./docs/ASSIGNMENT9_REFLECTION.md) | Reflection on domain modeling and class diagram development |
 | [CHANGELOG.md](./CHANGELOG.md) | Record of all changes introduced per assignment |
 
@@ -146,6 +168,25 @@ All six creational design patterns are implemented in the `/src/creational_patte
 | **Builder** | `CourseConfig.Builder` | A course configuration has five mandatory fields and five optional ones with sensible defaults. The Builder pattern makes it possible to construct a course configuration step by step, enforces mandatory field validation at construction time, and produces an immutable object once built. |
 | **Prototype** | `CertificateTemplate`, `CertificateTemplateRegistry` | Generating a certificate PDF requires a pre-configured branded template. The Prototype pattern allows the system to clone a stored master template and personalise the clone for each student, rather than constructing a new template object from scratch every time. |
 | **Singleton** | `DatabaseConnectionManager` | The system must have exactly one database connection pool. The Singleton pattern with double-checked locking and a `volatile` instance field ensures that only one `DatabaseConnectionManager` is created even when multiple threads call `getInstance()` simultaneously. |
+
+---
+
+## Repository Layer
+
+The repository layer was added in Assignment 11. It abstracts all storage operations behind interfaces so the rest of the system never needs to know which storage backend is being used.
+
+The generic `Repository<T, ID>` interface defines the four CRUD operations once. Each entity-specific interface extends it and adds query methods relevant to that entity. The in-memory HashMap implementations are used for development and testing. The `RepositoryFactory` returns the correct implementation based on a storage type string, making it straightforward to switch backends without touching any business logic.
+
+| Component | Location | Purpose |
+|-----------|----------|---------|
+| `Repository<T, ID>` | `src/repositories/` | Generic interface with save, findById, findAll, delete |
+| Entity interfaces | `src/repositories/` | Student, Course, Enrollment, Certificate specific queries |
+| In-memory implementations | `src/repositories/inmemory/` | HashMap-based storage for development and testing |
+| Database stub | `src/repositories/database/` | Future PostgreSQL implementation |
+| Filesystem stub | `src/repositories/filesystem/` | Future JSON file implementation |
+| `RepositoryFactory` | `src/factories/` | Returns the correct implementation based on storage type |
+
+**Why Factory Pattern over Dependency Injection:** The factory keeps the codebase self-contained without requiring a DI framework. The rest of the system asks the factory for a repository and never needs to know which implementation it gets back. Switching from `MEMORY` to `DATABASE` in future requires changing one string.
 
 ---
 
