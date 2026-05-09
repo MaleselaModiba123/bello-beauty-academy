@@ -5,6 +5,9 @@
 ![Platform](https://img.shields.io/badge/Platform-Web%20Application-blueviolet)
 ![Status](https://img.shields.io/badge/Status-In%20Development-orange)
 ![Architecture](https://img.shields.io/badge/Architecture-C4%20Model-blue)
+![Language](https://img.shields.io/badge/Language-Java-orange)
+![Build](https://img.shields.io/badge/Build-Maven-blue)
+![Tests](https://img.shields.io/badge/Tests-JUnit%205-green)
 
 ---
 
@@ -35,23 +38,89 @@ Once fully developed, the Bello Beauty Academy Platform will provide a complete 
 bello-beauty-academy/
 │
 ├── README.md                           ← You are here
+├── CHANGELOG.md                        ← Record of all changes per assignment
+├── pom.xml                             ← Maven build file with JUnit 5 dependency
+│
+├── src/
+│   ├── models/                         ← Core domain class implementations
+│   │   ├── User.java
+│   │   ├── Student.java
+│   │   ├── Trainer.java
+│   │   ├── Administrator.java
+│   │   ├── Course.java
+│   │   ├── Enrollment.java
+│   │   ├── Certificate.java
+│   │   ├── CourseCategory.java
+│   │   ├── EnrollmentStatus.java
+│   │   └── UserRole.java
+│   │
+│   └── creational_patterns/            ← All six creational pattern implementations
+│       ├── simple_factory/
+│       │   └── UserFactory.java
+│       ├── factory_method/
+│       │   ├── NotificationCreator.java
+│       │   ├── EnrollmentNotificationCreator.java
+│       │   ├── PaymentConfirmedNotificationCreator.java
+│       │   └── CertificateReadyNotificationCreator.java
+│       ├── abstract_factory/
+│       │   ├── UIComponentFactory.java
+│       │   ├── StandardUIFactory.java
+│       │   └── AccessibleUIFactory.java
+│       ├── builder/
+│       │   └── CourseConfig.java
+│       ├── prototype/
+│       │   ├── CertificateTemplate.java
+│       │   └── CertificateTemplateRegistry.java
+│       └── singleton/
+│           └── DatabaseConnectionManager.java
+│
+├── tests/                              ← JUnit 5 unit tests for all patterns
+│   ├── TestCoreModels.java
+│   ├── TestSimpleFactory.java
+│   ├── TestFactoryMethod.java
+│   ├── TestAbstractFactory.java
+│   ├── TestBuilder.java
+│   ├── TestPrototype.java
+│   ├── TestSingleton.java
+│   └── TestInMemoryRepositories.java
+│
+├── src/
+│   └── repositories/                   ← Repository interfaces and implementations
+│       ├── Repository.java
+│       ├── StudentRepository.java
+│       ├── CourseRepository.java
+│       ├── EnrollmentRepository.java
+│       ├── CertificateRepository.java
+│       ├── inmemory/
+│       │   ├── InMemoryStudentRepository.java
+│       │   ├── InMemoryCourseRepository.java
+│       │   ├── InMemoryEnrollmentRepository.java
+│       │   └── InMemoryCertificateRepository.java
+│       ├── database/
+│       │   └── DatabaseStudentRepository.java
+│       └── filesystem/
+│           └── FileSystemCourseRepository.java
+│
+├── src/
+│   └── factories/                      ← RepositoryFactory for storage abstraction
+│       └── RepositoryFactory.java
 │
 └── docs/
-    ├── SPECIFICATION.md                ← Full system specification document
-    ├── ARCHITECTURE.md                 ← System architecture and C4 diagrams
-    ├── STAKEHOLDER_ANALYSIS.md         ← Stakeholder analysis with roles, concerns, and success metrics
-    ├── SYSTEM_REQUIREMENTS.md          ← Full SRD with acceptance criteria and NFR categories
-    ├── REFLECTION.md                   ← Reflection on Kanban board and template selection
-    ├── TEST_AND_USE_CASE.md            ← Use case diagrams, specifications, and test cases
-    ├── AGILE_PLANNING.md               ← Agile planning document with user stories, backlog, and sprint plan
-    ├── TEMPLATE_ANALYSIS.md            ← GitHub project template comparison and justification
-    ├── KANBAN_EXPLANATION.md           ← Kanban board definition and workflow explanation
-    ├── STATE_DIAGRAMS.md               ← Object state transition diagrams for 8 critical system objects
-    ├── ACTIVITY_DIAGRAMS.md            ← Activity workflow diagrams for 8 key system workflows
-    ├── ASSIGNMENT8_REFLECTION.md       ← Reflection on object state and activity workflow modeling
-    ├── DOMAIN_MODEL.md                 ← Domain model with entities, attributes, methods, and business rules
-    ├── CLASS_DIAGRAM.md                ← Full Mermaid.js class diagram with design decisions
-    └── ASSIGNMENT9_REFLECTION.md       ← Reflection on domain modeling and class diagram development
+    ├── SPECIFICATION.md
+    ├── ARCHITECTURE.md
+    ├── STAKEHOLDER_ANALYSIS.md
+    ├── SYSTEM_REQUIREMENTS.md
+    ├── REFLECTION.md
+    ├── TEST_AND_USE_CASE.md
+    ├── AGILE_PLANNING.md
+    ├── TEMPLATE_ANALYSIS.md
+    ├── KANBAN_EXPLANATION.md
+    ├── STATE_DIAGRAMS.md
+    ├── ACTIVITY_DIAGRAMS.md
+    ├── ASSIGNMENT8_REFLECTION.md
+    ├── DOMAIN_MODEL.md
+    ├── CLASS_DIAGRAM.md
+    └── ASSIGNMENT9_REFLECTION.md
 ```
 
 ---
@@ -73,8 +142,68 @@ bello-beauty-academy/
 | [ACTIVITY_DIAGRAMS.md](./docs/ACTIVITY_DIAGRAMS.md) | Activity workflow diagrams for 8 key system workflows |
 | [ASSIGNMENT8_REFLECTION.md](./docs/ASSIGNMENT8_REFLECTION.md) | Reflection on object state modeling and activity workflow modeling |
 | [DOMAIN_MODEL.md](./docs/DOMAIN_MODEL.md) | Domain model with core entities, attributes, methods, business rules, and relationships |
-| [CLASS_DIAGRAM.md](./docs/CLASS_DIAGRAM.md) | Full Mermaid.js class diagram with design decisions and multiplicity explanations |
+| [CLASS_DIAGRAM.md](./docs/CLASS_DIAGRAM.md) | Full Mermaid.js class diagram with design decisions, multiplicity explanations, and repository layer diagram (updated Assignment 11) |
 | [ASSIGNMENT9_REFLECTION.md](./docs/ASSIGNMENT9_REFLECTION.md) | Reflection on domain modeling and class diagram development |
+| [CHANGELOG.md](./CHANGELOG.md) | Record of all changes introduced per assignment |
+
+---
+
+## Language and Technology Choice
+
+The class implementations and creational patterns for Assignment 10 are written in **Java**.
+
+Java was chosen because the class diagram from Assignment 9 already uses typed attributes and typed method signatures, so the translation to Java was straightforward. Inheritance and interface-based design are core to the language, which made the Abstract Factory and Factory Method patterns natural to implement. The `synchronized` keyword and `volatile` modifier are built in, so the thread-safe Singleton did not need any external libraries. The static nested class convention in Java is also a clean fit for the Builder pattern, which is how `CourseConfig.Builder` is structured. Maven and JUnit 5 handle the build and test setup without much configuration.
+
+---
+
+## Creational Patterns
+
+All six creational design patterns are implemented in the `/src/creational_patterns` directory. Each pattern is applied to a real use case from the Bello Beauty Academy system rather than a generic example.
+
+| Pattern | Class | Justification |
+|---------|-------|---------------|
+| **Simple Factory** | `UserFactory` | The system creates three types of users (Student, Trainer, Administrator) from a single registration flow. A Simple Factory centralises that branching logic so the rest of the system does not need to know which subclass to instantiate. |
+| **Factory Method** | `NotificationCreator` and subclasses | The system sends three types of transactional emails: enrollment confirmation, payment confirmed, and certificate ready. The Factory Method pattern allows each notification type to be created by its own dedicated creator, making it straightforward to add new notification types without modifying existing code. |
+| **Abstract Factory** | `UIComponentFactory`, `StandardUIFactory`, `AccessibleUIFactory` | The platform needs to support both a standard UI and a high-contrast accessible UI. The Abstract Factory ensures that an entire family of related UI components (dashboard cards, course cards) is created consistently for the chosen theme, without mixing components from different families. |
+| **Builder** | `CourseConfig.Builder` | A course configuration has five mandatory fields and five optional ones with sensible defaults. The Builder pattern makes it possible to construct a course configuration step by step, enforces mandatory field validation at construction time, and produces an immutable object once built. |
+| **Prototype** | `CertificateTemplate`, `CertificateTemplateRegistry` | Generating a certificate PDF requires a pre-configured branded template. The Prototype pattern allows the system to clone a stored master template and personalise the clone for each student, rather than constructing a new template object from scratch every time. |
+| **Singleton** | `DatabaseConnectionManager` | The system must have exactly one database connection pool. The Singleton pattern with double-checked locking and a `volatile` instance field ensures that only one `DatabaseConnectionManager` is created even when multiple threads call `getInstance()` simultaneously. |
+
+---
+
+## Repository Layer
+
+The repository layer was added in Assignment 11. It abstracts all storage operations behind interfaces so the rest of the system never needs to know which storage backend is being used.
+
+The generic `Repository<T, ID>` interface defines the four CRUD operations once. Each entity-specific interface extends it and adds query methods relevant to that entity. The in-memory HashMap implementations are used for development and testing. The `RepositoryFactory` returns the correct implementation based on a storage type string, making it straightforward to switch backends without touching any business logic.
+
+| Component | Location | Purpose |
+|-----------|----------|---------|
+| `Repository<T, ID>` | `src/repositories/` | Generic interface with save, findById, findAll, delete |
+| Entity interfaces | `src/repositories/` | Student, Course, Enrollment, Certificate specific queries |
+| In-memory implementations | `src/repositories/inmemory/` | HashMap-based storage for development and testing |
+| Database stub | `src/repositories/database/` | Future PostgreSQL implementation |
+| Filesystem stub | `src/repositories/filesystem/` | Future JSON file implementation |
+| `RepositoryFactory` | `src/factories/` | Returns the correct implementation based on storage type |
+
+**Why Factory Pattern over Dependency Injection:** The factory keeps the codebase self-contained without requiring a DI framework. The rest of the system asks the factory for a repository and never needs to know which implementation it gets back. Switching from `MEMORY` to `DATABASE` in future requires changing one string.
+
+---
+
+## Running the Tests
+
+Requirements: Java 17 or later, Maven 3.8 or later.
+
+```bash
+# Run all tests
+mvn test
+
+# Run a specific test class
+mvn test -Dtest=TestSingleton
+
+# Run tests with coverage report (requires jacoco plugin in pom.xml)
+mvn test jacoco:report
+```
 
 ---
 
@@ -110,7 +239,7 @@ The project uses a customised **Kanban** board on GitHub Projects to manage all 
 
 ---
 
-##  Key Features
+## ✨ Key Features
 
 ### 🎓 Student Features
 - Browse and search all available certification courses
