@@ -5,6 +5,80 @@ All notable changes to this project are documented in this file.
 
 ---
 
+## [Assignment 12] — May 2026
+
+### Added
+
+**Custom Exceptions: `src/exceptions/`**
+- `StudentNotFoundException.java`: thrown when a student cannot be found by ID
+- `CourseNotFoundException.java`: thrown when a course cannot be found by ID
+- `EnrollmentNotFoundException.java`: thrown when an enrollment cannot be found by ID
+- `DuplicateEnrollmentException.java`: thrown when a student tries to enroll in a course they are already enrolled in
+- `CourseNotActiveException.java`: thrown when a student tries to enroll in an inactive course
+
+**Service Layer: `src/services/`**
+- `StudentService.java`: handles student registration, retrieval, update, and deletion with duplicate email validation
+- `CourseService.java`: handles course creation, retrieval, update, and deactivation with duplicate ID and inactive state validation
+- `EnrollmentService.java`: handles enrollment creation, activation, and cancellation with student existence, course activity, and duplicate enrollment validation
+
+**REST API Controllers: `src/api/`**
+- `StudentController.java`: exposes StudentService through five HTTP endpoints with proper status codes and exception handling
+- `CourseController.java`: exposes CourseService through seven HTTP endpoints including active course and category filtering
+- `EnrollmentController.java`: exposes EnrollmentService through six HTTP endpoints including enrollment activation
+
+**Unit Tests: `tests/services/`**
+- `StudentServiceTest.java`: 11 JUnit 5 and Mockito tests for StudentService
+- `CourseServiceTest.java`: 14 JUnit 5 and Mockito tests for CourseService
+- `EnrollmentServiceTest.java`: 15 JUnit 5 and Mockito tests for EnrollmentService
+
+**Integration Tests: `tests/api/`**
+- `ApiIntegrationTest.java`: 22 MockMvc integration tests covering all endpoints for Student, Course, and Enrollment including success, not found, conflict, and bad request responses
+
+**API Documentation: `docs/`**
+- `openapi.yaml`: OpenAPI 3.0 specification documenting all 18 REST endpoints with request schemas, response schemas, and error responses
+
+### Updated
+
+**Updated Model Classes**
+- `src/models/EnrollmentStatus.java`: added `CANCELLED` status value to support enrollment cancellation in the service layer
+- `src/models/Enrollment.java`: added `cancel()` state transition method and `cancelledAt` timestamp
+- `src/models/Course.java`: added `deactivate()` state transition method
+
+**Build Configuration**
+- `pom.xml`: updated with Spring Boot 3.2.5 parent, spring-boot-starter-web, Mockito, and spring-boot-starter-test dependencies
+- `src/BelloBeautyAcademyApplication.java`: Spring Boot application entry point
+
+**Documentation**
+- `README.md`: updated with service layer section, REST API endpoint table, application run instructions, and Swagger UI instructions
+- `CHANGELOG.md`: this entry
+
+### Bug Fixes
+
+Two bug issues were created and resolved during development:
+- Fix: Add CANCELLED status to EnrollmentStatus enum
+- Fix: Add deactivate() to Course and cancel() to Enrollment model classes
+
+### GitHub Project Board
+
+A new **Assignment 12** milestone was created to track all work for this assignment.
+
+Eleven issues were created on the Assignment 12 milestone and linked to Project Board 5:
+- #69 Add custom exceptions for service layer
+- #70 Implement StudentService with business logic
+- #71 Implement CourseService with business logic
+- #72 Implement EnrollmentService with business logic
+- #73 Write unit tests for service layer
+- #74 Implement StudentController REST API
+- #75 Implement CourseController REST API
+- #76 Implement EnrollmentController REST API
+- #77 Write integration tests for REST API
+- #78 Add OpenAPI/Swagger documentation
+- #79 Update README and CHANGELOG for Assignment 12
+
+All issues are assigned, linked to the Assignment 12 milestone, and moved to Done on the Kanban board.
+
+---
+
 ## [Assignment 11] — May 2026
 
 ### Added
