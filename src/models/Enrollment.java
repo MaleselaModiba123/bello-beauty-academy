@@ -11,6 +11,7 @@ public class Enrollment {
     private final LocalDateTime enrolledAt;
     private LocalDateTime activatedAt;
     private LocalDateTime completedAt;
+    private LocalDateTime cancelledAt;
 
     public Enrollment(String enrollmentId, Student student, Course course) {
         if (enrollmentId == null || enrollmentId.isBlank())
@@ -42,6 +43,14 @@ public class Enrollment {
         this.completedAt = LocalDateTime.now();
     }
 
+    // enforces valid state transition: PENDING or ACTIVE → CANCELLED
+    public void cancel() {
+        if (status == EnrollmentStatus.COMPLETED)
+            throw new IllegalStateException("Cannot cancel a completed enrollment.");
+        this.status      = EnrollmentStatus.CANCELLED;
+        this.cancelledAt = LocalDateTime.now();
+    }
+
     public String           getEnrollmentId() { return enrollmentId; }
     public Student          getStudent()      { return student; }
     public Course           getCourse()       { return course; }
@@ -49,6 +58,7 @@ public class Enrollment {
     public LocalDateTime    getEnrolledAt()   { return enrolledAt; }
     public LocalDateTime    getActivatedAt()  { return activatedAt; }
     public LocalDateTime    getCompletedAt()  { return completedAt; }
+    public LocalDateTime    getCancelledAt()  { return cancelledAt; }
 
     @Override
     public String toString() {

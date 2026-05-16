@@ -39,6 +39,13 @@ public class Course {
         }
     }
 
+    // deactivate a course — throws if already inactive
+    public void deactivate() {
+        if (!this.active)
+            throw new IllegalStateException("Course " + courseId + " is already inactive.");
+        this.active = false;
+    }
+
     public List<String> getMaterials() {
         return Collections.unmodifiableList(materials);
     }
