@@ -1,0 +1,553 @@
+openapi: 3.0.3
+
+info:
+  title: Bello Beauty Academy API
+  description: REST API for managing students, courses, and enrollments on the Bello Beauty Academy Platform.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+tags:
+  - name: Students
+    description: Student registration and management
+  - name: Courses
+    description: Course catalogue management
+  - name: Enrollments
+    description: Student enrollment and lifecycle management
+
+paths:
+
+  # ─── Student endpoints ───────────────────────────────────────────────────────
+
+  /api/students:
+    get:
+      tags: [Students]
+      summary: Get all students
+      responses:
+        '200':
+          description: List of all students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+
+    post:
+      tags: [Students]
+      summary: Register a new student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+            example:
+              userId: S001
+              name: Aaliyah Adams
+              email: aaliyah@email.com
+              passwordHash: hashed123
+              phoneNumber: "0821234567"
+      responses:
+        '201':
+          description: Student registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: Invalid input or duplicate email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/students/{id}:
+    get:
+      tags: [Students]
+      summary: Get a student by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: S001
+      responses:
+        '200':
+          description: Student found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Students]
+      summary: Update a student
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '200':
+          description: Student updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags: [Students]
+      summary: Delete a student
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Student deleted successfully
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ─── Course endpoints ─────────────────────────────────────────────────────────
+
+  /api/courses:
+    get:
+      tags: [Courses]
+      summary: Get all courses
+      responses:
+        '200':
+          description: List of all courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+
+    post:
+      tags: [Courses]
+      summary: Create a new course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+            example:
+              courseId: C001
+              title: Classic Lash Extensions
+              description: Learn classic lash application techniques
+              category: LASH
+              durationDays: 3
+              price: 1500.00
+      responses:
+        '201':
+          description: Course created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '400':
+          description: Invalid input or duplicate course ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/courses/active:
+    get:
+      tags: [Courses]
+      summary: Get all active courses
+      responses:
+        '200':
+          description: List of active courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+
+  /api/courses/{id}:
+    get:
+      tags: [Courses]
+      summary: Get a course by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: C001
+      responses:
+        '200':
+          description: Course found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Courses]
+      summary: Update a course
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        '200':
+          description: Course updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags: [Courses]
+      summary: Deactivate a course
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Course deactivated successfully
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Course is already inactive
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/courses/category/{category}:
+    get:
+      tags: [Courses]
+      summary: Get courses by category
+      parameters:
+        - name: category
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [LASH, BROW, NAIL, MAKEUP]
+          example: LASH
+      responses:
+        '200':
+          description: List of courses in the given category
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        '400':
+          description: Invalid category value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ─── Enrollment endpoints ─────────────────────────────────────────────────────
+
+  /api/enrollments:
+    get:
+      tags: [Enrollments]
+      summary: Get all enrollments
+      responses:
+        '200':
+          description: List of all enrollments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Enrollment'
+
+    post:
+      tags: [Enrollments]
+      summary: Enroll a student in a course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enrollment'
+            example:
+              enrollmentId: E001
+              student:
+                userId: S001
+              course:
+                courseId: C001
+      responses:
+        '201':
+          description: Enrollment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+        '400':
+          description: Course is not active
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Student or course not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Student is already enrolled in this course
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/enrollments/{id}:
+    get:
+      tags: [Enrollments]
+      summary: Get an enrollment by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: E001
+      responses:
+        '200':
+          description: Enrollment found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+        '404':
+          description: Enrollment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags: [Enrollments]
+      summary: Cancel an enrollment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Enrollment cancelled successfully
+        '404':
+          description: Enrollment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Cannot cancel a completed enrollment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/enrollments/student/{studentId}:
+    get:
+      tags: [Enrollments]
+      summary: Get all enrollments for a student
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: S001
+      responses:
+        '200':
+          description: List of enrollments for the student
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Enrollment'
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/enrollments/{id}/activate:
+    put:
+      tags: [Enrollments]
+      summary: Activate a pending enrollment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: E001
+      responses:
+        '200':
+          description: Enrollment activated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+        '404':
+          description: Enrollment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Enrollment is not in PENDING status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+# ─── Schemas ──────────────────────────────────────────────────────────────────
+
+components:
+  schemas:
+
+    Student:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: S001
+        name:
+          type: string
+          example: Aaliyah Adams
+        email:
+          type: string
+          example: aaliyah@email.com
+        passwordHash:
+          type: string
+          example: hashed123
+        phoneNumber:
+          type: string
+          example: "0821234567"
+
+    Course:
+      type: object
+      properties:
+        courseId:
+          type: string
+          example: C001
+        title:
+          type: string
+          example: Classic Lash Extensions
+        description:
+          type: string
+          example: Learn classic lash application techniques
+        category:
+          type: string
+          enum: [LASH, BROW, NAIL, MAKEUP]
+          example: LASH
+        durationDays:
+          type: integer
+          example: 3
+        price:
+          type: number
+          format: double
+          example: 1500.00
+        active:
+          type: boolean
+          example: true
+
+    Enrollment:
+      type: object
+      properties:
+        enrollmentId:
+          type: string
+          example: E001
+        student:
+          $ref: '#/components/schemas/Student'
+        course:
+          $ref: '#/components/schemas/Course'
+        status:
+          type: string
+          enum: [PENDING, ACTIVE, COMPLETED, CANCELLED]
+          example: PENDING
+        enrolledAt:
+          type: string
+          format: date-time
+          example: "2026-05-01T10:00:00"
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Student not found with ID: S001
