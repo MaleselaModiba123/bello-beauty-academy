@@ -3,9 +3,11 @@ package api;
 import exceptions.*;
 import models.*;
 import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,7 +19,8 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest({StudentController.class, CourseController.class, EnrollmentController.class})
+@SpringBootTest(classes = BelloBeautyAcademyApplication.class)
+@AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ApiIntegrationTest {
 
@@ -230,7 +233,7 @@ public class ApiIntegrationTest {
         when(enrollmentService.enrollStudent(any())).thenReturn(enrollment);
         mockMvc.perform(post("/api/enrollments")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"enrollmentId\":\"E001\",\"student\":{\"userId\":\"S001\"},\"course\":{\"courseId\":\"C001\"}}"))
+                        .content("{\"enrollmentId\":\"E001\",\"student\":{\"userId\":\"S001\",\"name\":\"Aaliyah Adams\",\"email\":\"aaliyah@email.com\",\"passwordHash\":\"hash\",\"phoneNumber\":\"082\"},\"course\":{\"courseId\":\"C001\",\"title\":\"Classic Lash\",\"description\":\"desc\",\"category\":\"LASH\",\"durationDays\":3,\"price\":1500.00}}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.enrollmentId").value("E001"));
     }
@@ -243,7 +246,7 @@ public class ApiIntegrationTest {
                 .thenThrow(new DuplicateEnrollmentException("S001", "C001"));
         mockMvc.perform(post("/api/enrollments")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"enrollmentId\":\"E002\",\"student\":{\"userId\":\"S001\"},\"course\":{\"courseId\":\"C001\"}}"))
+                        .content("{\"enrollmentId\":\"E002\",\"student\":{\"userId\":\"S001\",\"name\":\"Aaliyah Adams\",\"email\":\"aaliyah@email.com\",\"passwordHash\":\"hash\",\"phoneNumber\":\"082\"},\"course\":{\"courseId\":\"C001\",\"title\":\"Classic Lash\",\"description\":\"desc\",\"category\":\"LASH\",\"durationDays\":3,\"price\":1500.00}}"))
                 .andExpect(status().isConflict());
     }
 
@@ -255,7 +258,7 @@ public class ApiIntegrationTest {
                 .thenThrow(new CourseNotActiveException("C001"));
         mockMvc.perform(post("/api/enrollments")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"enrollmentId\":\"E003\",\"student\":{\"userId\":\"S001\"},\"course\":{\"courseId\":\"C001\"}}"))
+                        .content("{\"enrollmentId\":\"E003\",\"student\":{\"userId\":\"S001\",\"name\":\"Aaliyah Adams\",\"email\":\"aaliyah@email.com\",\"passwordHash\":\"hash\",\"phoneNumber\":\"082\"},\"course\":{\"courseId\":\"C001\",\"title\":\"Classic Lash\",\"description\":\"desc\",\"category\":\"LASH\",\"durationDays\":3,\"price\":1500.00}}"))
                 .andExpect(status().isBadRequest());
     }
 
