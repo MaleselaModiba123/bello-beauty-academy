@@ -2,12 +2,14 @@ package services;
 
 import exceptions.StudentNotFoundException;
 import models.Student;
+import org.springframework.stereotype.Service;
 import repositories.StudentRepository;
 
 import java.util.List;
 
 // handles all student-related business logic
 // uses StudentRepository for persistence — no direct storage here
+@Service
 public class StudentService {
 
     private final StudentRepository studentRepository;

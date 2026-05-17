@@ -7,6 +7,7 @@ import exceptions.EnrollmentNotFoundException;
 import exceptions.StudentNotFoundException;
 import models.Enrollment;
 import models.EnrollmentStatus;
+import org.springframework.stereotype.Service;
 import repositories.CourseRepository;
 import repositories.EnrollmentRepository;
 import repositories.StudentRepository;
@@ -15,6 +16,7 @@ import java.util.List;
 
 // handles all enrollment-related business logic
 // uses three repositories — student, course, and enrollment
+@Service
 public class EnrollmentService {
 
     private final EnrollmentRepository enrollmentRepository;
