@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # 💅 Bello Beauty Academy
 
 > A modern, full stack web-based Beauty Training Academy Management System for professional beauty certification programs.
