@@ -43,7 +43,7 @@ The following rules are active on the `main` branch of the Bello Beauty Academy 
 
 ### Screenshot of Branch Protection Settings
 
-![Branch Protection Rules](./screenshots/branch-protection-rules.png)
+![Branch Protection Rules](./screenshots/cicd/branch-protection-rules.png)
 
 ---
 
@@ -147,4 +147,4 @@ The following workflow applies to all contributors to the Bello Beauty Academy P
 
 The screenshot below shows the branch protection rules configured on the `main` branch of the Bello Beauty Academy Platform GitHub repository.
 
-![Branch Protection Settings](./screenshots/branch-protection-rules.png)
+![Branch Protection Settings](./screenshots/cicd/branch-protection-rules.png)

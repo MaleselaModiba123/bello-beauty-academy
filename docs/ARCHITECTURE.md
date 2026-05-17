@@ -554,24 +554,46 @@ The raw OpenAPI specification is available at `docs/openapi.yaml`.
 
 The Swagger UI shows all three controllers with their endpoints: student-controller, enrollment-controller, and course-controller.
 
-![Swagger UI Overview](./screenshots/swagger-ui-overview.png)
+![Swagger UI Overview](./screenshots/swagger/swagger-ui-overview.png)
 
 ### Student Controller
 
-![Student Controller — Part 1](./screenshots/swagger-ui-students-1.png)
+![Student Controller — Part 1](./screenshots/swagger/swagger-ui-students-1.png)
 
-![Student Controller — Part 2](./screenshots/swagger-ui-students-2.png)
+![Student Controller — Part 2](./screenshots/swagger/swagger-ui-students-2.png)
 
 ### Course Controller
 
-![Course Controller](./screenshots/swagger-ui-courses.png)
+![Course Controller](./screenshots/swagger/swagger-ui-courses.png)
 
 ### Enrollment Controller
 
-![Enrollment Controller — Part 1](./screenshots/swagger-ui-enrollments-1.png)
+![Enrollment Controller — Part 1](./screenshots/swagger/swagger-ui-enrollments-1.png)
 
-![Enrollment Controller — Part 2](./screenshots/swagger-ui-enrollments-2.png)
+![Enrollment Controller — Part 2](./screenshots/swagger/swagger-ui-enrollments-2.png)
+
 
 ---
 
-*End of ARCHITECTURE.md*
+## 12. CI/CD Pipeline — GitHub Actions
+
+The CI/CD pipeline is defined in `.github/workflows/ci.yml` and runs automatically on every push and pull request. See [PROTECTION.md](./PROTECTION.md) for the full branch protection configuration.
+
+### Pipeline Overview — All Workflow Runs
+
+![CI/CD Pipeline Overview](./screenshots/cicd/ci-pipeline-overview.png)
+
+### Successful Pipeline Run — Both Jobs Passed
+
+![CI/CD Pipeline Success](./screenshots/cicd/ci-pipeline-success.png)
+
+### Generated Artifacts — Release JAR and Test Reports
+
+![CI/CD Artifacts](./screenshots/cicd/ci-artifact.png)
+
+### Branch Protection Rules
+
+![Branch Protection Rules](./screenshots/cicd/branch-protection-rules.png)
+
+---
+
