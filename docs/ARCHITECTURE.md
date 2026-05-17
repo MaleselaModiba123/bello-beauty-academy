@@ -1,8 +1,8 @@
 # Software Architecture Document : Bello Beauty Academy Platform
 
-**Document Version:** 1.3
-**Date:** March 2026
-**Status:** Draft
+**Document Version:** 2.0
+**Date:** May 2026
+**Status:** Updated — Assignment 12
 
 ---
 
@@ -18,7 +18,7 @@
 
 The Bello Beauty Academy Platform operates within the **Beauty Education and Professional Training** domain. Beauty academies are educational institutions focused exclusively on training aspiring beauty professionals. Unlike beauty salons or spas that deliver services to end customers, beauty academies provide structured certification programs covering lash artistry, brow techniques, nail technology, and makeup artistry. Students enroll in formal training programs, learn practical techniques under qualified trainers, and earn recognised industry certifications upon successful completion.
 
-The domain is characterised by a need to manage students, trainers, courses, class schedules, practical assessments, and certification records ,all of which require a purpose-built digital management platform to replace the manual and informal processes currently in use.
+The domain is characterised by a need to manage students, trainers, courses, class schedules, practical assessments, and certification records, all of which require a purpose-built digital management platform to replace the manual and informal processes currently in use.
 
 ---
 
@@ -30,7 +30,7 @@ The Bello Beauty Academy currently manages its training operations through a com
 
 ## Individual Scope
 
-The core features : student enrollment, course management, trainer management, class scheduling, progress tracking, payment confirmation, and certificate generation form a complete and cohesive system that addresses all the identified problems. Complex features such as online card payment processing and live virtual classes have been deliberately deferred to future releases and documented in the Future Scope section of the specification. The system is built using widely adopted technologies (React.js, Node.js, PostgreSQL) that are well documented and supported, making the implementation feasible within the project timeline.
+The core features: student enrollment, course management, trainer management, class scheduling, progress tracking, payment confirmation, and certificate generation form a complete and cohesive system that addresses all the identified problems. Complex features such as online card payment processing and live virtual classes have been deliberately deferred to future releases and documented in the Future Scope section of the specification. The system is built using widely adopted technologies (React.js, Node.js, PostgreSQL) that are well documented and supported, making the implementation feasible within the project timeline.
 
 ---
 
@@ -46,6 +46,7 @@ The core features : student enrollment, course management, trainer management, c
 8. [C4 Level 5 — Deployment Diagram](#8-c4-level-5--deployment-diagram)
 9. [Data Flow Description](#9-data-flow-description)
 10. [Technology Stack](#10-technology-stack)
+11. [API Documentation — Swagger UI](#11-api-documentation--swagger-ui)
 
 ---
 
@@ -69,7 +70,6 @@ The system adopts a **modular monolith backend** architecture for this first ver
 
 **Architecture pattern:** Layered MVC (Model-View-Controller) with service layer
 **API style:** RESTful HTTP API
-
 
 ---
 
@@ -228,7 +228,7 @@ C4Container
 
 ## 6. C4 Level 3 — Component Diagram
 
-This diagram zooms into the API Application container and shows the components that reside inside it. The same people, software systems, and other containers from the Container diagram are repeated here to provide continuity.
+This diagram zooms into the API Application container and shows the components that reside inside it.
 
 ```mermaid
 C4Component
@@ -353,32 +353,17 @@ flowchart TD
     style G fill:#FF9900,color:#fff
 ```
 
-**Relationship Legend**
-
-| Colour | Step | From | To | Relationship |
-|--------|------|------|----|-------------|
-| 🔵 Blue | 1–2 | Student → Web Application → Enrollment Component | Submits enrollment form |
-| 🟢 Green | 3, 5 | Enrollment / Payment Component | Database | Saves enrollment and payment records with status pending |
-| 🟠 Orange | 4 | Enrollment Component | Payment Component | Creates associated payment record |
-| 🔴 Red | 6–7 | Enrollment Component → Notification Service | Sends enrollment confirmation email to student |
-| 🔵 Blue | 8–9 | Student → Web Application → Payment Component | Uploads proof of payment |
-| 🟠 Orange | 10 | Payment Component | AWS S3 | Stores the uploaded proof of payment file |
-| 🔴 Red | 11–12 | Payment Component → Notification Service | Notifies admin that proof of payment is ready |
-| 🔵 Blue | 13–14 | Admin → Web Application → Payment Component | Admin reviews pending payments |
-| 🟢 Green | 15a–15b | Payment Component | Database / Enrollment Component | Confirms payment and activates enrollment |
-| 🔴 Red | 16–17 | Payment Component → Notification Service | Sends payment confirmation email to student |
-
 ---
 
 ## 8. C4 Level 5 — Deployment Diagram
 
-This diagram shows how the Bello Beauty Academy Platform is deployed across infrastructure environments, including the hosting nodes, containers, and external services.
+This diagram shows how the Bello Beauty Academy Platform is deployed across infrastructure environments.
 
 ```mermaid
 C4Deployment
     title Deployment Diagram — Bello Beauty Academy Platform
 
-    Deployment_Node(student_device, "Student / Trainer / Admin Device", "Web Browser") {
+    Deployment_Node(mob, "Student / Trainer / Admin Device", "Web Browser") {
         Container(webApp, "Web Application", "React.js SPA", "Runs in the browser.")
     }
 
@@ -425,20 +410,6 @@ C4Deployment
 
     UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
 ```
-
-**Relationship Legend**
-
-| Colour | From | To | Relationship | Protocol |
-|--------|------|----|-------------|----------|
-| 🟢 Green | Web Application | API Application | Sends all user requests to the backend API | JSON/HTTPS |
-| 🟢 Green | API Application | Database | Reads and writes all platform data | SQL |
-| 🟠 Orange | API Application | Authentication Service | Validates tokens and enforces role-based access control | Internal |
-| 🟠 Orange | API Application | Payment Service | Delegates proof of payment and confirmation operations | Internal |
-| 🟠 Orange | API Application | Certificate Service | Requests branded PDF certificate generation | Internal |
-| 🟠 Orange | API Application | Notification Service | Triggers transactional email notifications | Internal |
-| 🔴 Red | Payment Service | AWS S3 | Stores uploaded proof of payment files | HTTPS |
-| 🔴 Red | Certificate Service | AWS S3 | Stores generated certificate PDF files | HTTPS |
-| 🔴 Red | Notification Service | SendGrid Email Service | Delivers enrollment, payment, and certificate emails | SMTP |
 
 ---
 
@@ -569,3 +540,38 @@ stateDiagram-v2
 
 ---
 
+## 11. API Documentation — Swagger UI
+
+The REST API is fully documented using OpenAPI 3.0 and Springdoc OpenAPI. Once the application is running, the full interactive API documentation is available at:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+The raw OpenAPI specification is available at `docs/openapi.yaml`.
+
+### Overview — All Controllers
+
+The Swagger UI shows all three controllers with their endpoints: student-controller, enrollment-controller, and course-controller.
+
+![Swagger UI Overview](./screenshots/swagger-ui-overview.png)
+
+### Student Controller
+
+![Student Controller — Part 1](./screenshots/swagger-ui-students-1.png)
+
+![Student Controller — Part 2](./screenshots/swagger-ui-students-2.png)
+
+### Course Controller
+
+![Course Controller](./screenshots/swagger-ui-courses.png)
+
+### Enrollment Controller
+
+![Enrollment Controller — Part 1](./screenshots/swagger-ui-enrollments-1.png)
+
+![Enrollment Controller — Part 2](./screenshots/swagger-ui-enrollments-2.png)
+
+---
+
+*End of ARCHITECTURE.md*
