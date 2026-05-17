@@ -50,6 +50,7 @@ All notable changes to this project are documented in this file.
 
 **Documentation**
 - `README.md`: updated with service layer section, REST API endpoint table, application run instructions, and Swagger UI instructions
+- `docs/CLASS_DIAGRAM.md`: updated to version 3.0 with Section 4 added showing the full three-layer architecture diagram
 - `CHANGELOG.md`: this entry
 
 ### Bug Fixes
@@ -109,7 +110,7 @@ All issues are assigned, linked to the Assignment 12 milestone, and moved to Don
 ### Updated
 
 **Documentation**
-- `docs/CLASS_DIAGRAM.md`: updated to version 2.0 with Section 3 added showing the full repository layer class diagram including interfaces, implementations, stubs, and factory
+- `docs/CLASS_DIAGRAM.md`: updated to version 3.0 with Section 4 added showing the full three-layer architecture diagram including Repository Layer, Service Layer, REST API Layer, dependency flow, and layer responsibility explanations
 - `README.md`: updated with repository layer section, updated repository structure tree, and updated documentation table
 - `CHANGELOG.md`: this entry
 
