@@ -41,11 +41,7 @@ The following rules are active on the `main` branch of the Bello Beauty Academy 
 | Block direct pushes to main | Enabled |
 | Enforce rules for administrators | Enabled |
 
-### Screenshot of Branch Protection Settings
 
-![Branch Protection Rules](./screenshots/cicd/branch-protection-rules.png)
-
----
 
 ## 3. Why Each Rule Matters
 
