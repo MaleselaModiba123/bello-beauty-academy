@@ -116,6 +116,9 @@ bello-beauty-academy/
 │   │   ├── EnrollmentNotFoundException.java
 │   │   ├── DuplicateEnrollmentException.java
 │   │   └── CourseNotActiveException.java
+│   ├── config/                         ← Spring Boot configuration
+│   │   ├── AppConfig.java
+│   │   └── OpenApiConfig.java
 │   ├── services/                       ← Business logic layer
 │   │   ├── StudentService.java
 │   │   ├── CourseService.java
@@ -126,6 +129,13 @@ bello-beauty-academy/
 │       └── EnrollmentController.java
 │
 └── docs/
+    ├── screenshots/
+    │   ├── swagger-ui-overview.png
+    │   ├── swagger-ui-students-1.png
+    │   ├── swagger-ui-students-2.png
+    │   ├── swagger-ui-courses.png
+    │   ├── swagger-ui-enrollments-1.png
+    │   └── swagger-ui-enrollments-2.png
     ├── openapi.yaml
     ├── SPECIFICATION.md
     ├── ARCHITECTURE.md
@@ -151,7 +161,7 @@ bello-beauty-academy/
 | Document | Description |
 |----------|-------------|
 | [SPECIFICATION.md](./docs/SPECIFICATION.md) | Full system specification including domain description, problem statement, and system scope |
-| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | System architecture overview and C4 diagrams |
+| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | System architecture overview, C4 diagrams, and Swagger UI screenshots (updated Assignment 12) |
 | [STAKEHOLDER_ANALYSIS.md](./docs/STAKEHOLDER_ANALYSIS.md) | Stakeholder analysis table with roles, concerns, pain points, and success metrics |
 | [SYSTEM_REQUIREMENTS.md](./docs/SYSTEM_REQUIREMENTS.md) | Full System Requirements Document with functional requirements, acceptance criteria, NFRs, and traceability matrix |
 | [REFLECTION.md](./docs/REFLECTION.md) | Reflection on Agile project management including template selection and Kanban customisation |
