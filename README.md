@@ -8,6 +8,7 @@
 ![Language](https://img.shields.io/badge/Language-Java-orange)
 ![Build](https://img.shields.io/badge/Build-Maven-blue)
 ![Tests](https://img.shields.io/badge/Tests-JUnit%205-green)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-blue)
 
 ---
 
@@ -36,6 +37,10 @@ Once fully developed, the Bello Beauty Academy Platform will provide a complete 
 
 ```
 bello-beauty-academy/
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml                      ← GitHub Actions CI/CD pipeline
 │
 ├── README.md                           ← You are here
 ├── CHANGELOG.md                        ← Record of all changes per assignment
@@ -74,7 +79,7 @@ bello-beauty-academy/
 │       └── singleton/
 │           └── DatabaseConnectionManager.java
 │
-├── tests/                              ← JUnit 5 unit tests for all patterns
+├── tests/                              ← JUnit 5 unit tests
 │   ├── TestCoreModels.java
 │   ├── TestSimpleFactory.java
 │   ├── TestFactoryMethod.java
@@ -82,7 +87,13 @@ bello-beauty-academy/
 │   ├── TestBuilder.java
 │   ├── TestPrototype.java
 │   ├── TestSingleton.java
-│   └── TestInMemoryRepositories.java
+│   ├── TestInMemoryRepositories.java
+│   ├── services/
+│   │   ├── StudentServiceTest.java
+│   │   ├── CourseServiceTest.java
+│   │   └── EnrollmentServiceTest.java
+│   └── api/
+│       └── ApiIntegrationTest.java
 │
 ├── src/
 │   └── repositories/                   ← Repository interfaces and implementations
@@ -102,10 +113,35 @@ bello-beauty-academy/
 │           └── FileSystemCourseRepository.java
 │
 ├── src/
-│   └── factories/                      ← RepositoryFactory for storage abstraction
-│       └── RepositoryFactory.java
+│   ├── factories/                      ← RepositoryFactory for storage abstraction
+│   │   └── RepositoryFactory.java
+│   ├── exceptions/                     ← Custom exceptions for the service layer
+│   │   ├── StudentNotFoundException.java
+│   │   ├── CourseNotFoundException.java
+│   │   ├── EnrollmentNotFoundException.java
+│   │   ├── DuplicateEnrollmentException.java
+│   │   └── CourseNotActiveException.java
+│   ├── config/                         ← Spring Boot configuration
+│   │   ├── AppConfig.java
+│   │   └── OpenApiConfig.java
+│   ├── services/                       ← Business logic layer
+│   │   ├── StudentService.java
+│   │   ├── CourseService.java
+│   │   └── EnrollmentService.java
+│   └── api/                            ← REST API controllers
+│       ├── StudentController.java
+│       ├── CourseController.java
+│       └── EnrollmentController.java
 │
 └── docs/
+    ├── screenshots/
+    │   ├── swagger-ui-overview.png
+    │   ├── swagger-ui-students-1.png
+    │   ├── swagger-ui-students-2.png
+    │   ├── swagger-ui-courses.png
+    │   ├── swagger-ui-enrollments-1.png
+    │   └── swagger-ui-enrollments-2.png
+    ├── openapi.yaml
     ├── SPECIFICATION.md
     ├── ARCHITECTURE.md
     ├── STAKEHOLDER_ANALYSIS.md
@@ -130,7 +166,7 @@ bello-beauty-academy/
 | Document | Description |
 |----------|-------------|
 | [SPECIFICATION.md](./docs/SPECIFICATION.md) | Full system specification including domain description, problem statement, and system scope |
-| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | System architecture overview and C4 diagrams |
+| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | System architecture overview, C4 diagrams, and Swagger UI screenshots (updated Assignment 12) |
 | [STAKEHOLDER_ANALYSIS.md](./docs/STAKEHOLDER_ANALYSIS.md) | Stakeholder analysis table with roles, concerns, pain points, and success metrics |
 | [SYSTEM_REQUIREMENTS.md](./docs/SYSTEM_REQUIREMENTS.md) | Full System Requirements Document with functional requirements, acceptance criteria, NFRs, and traceability matrix |
 | [REFLECTION.md](./docs/REFLECTION.md) | Reflection on Agile project management including template selection and Kanban customisation |
@@ -145,6 +181,7 @@ bello-beauty-academy/
 | [CLASS_DIAGRAM.md](./docs/CLASS_DIAGRAM.md) | Full Mermaid.js class diagram with design decisions, multiplicity explanations, and repository layer diagram (updated Assignment 11) |
 | [ASSIGNMENT9_REFLECTION.md](./docs/ASSIGNMENT9_REFLECTION.md) | Reflection on domain modeling and class diagram development |
 | [CHANGELOG.md](./CHANGELOG.md) | Record of all changes introduced per assignment |
+| [docs/openapi.yaml](./docs/openapi.yaml) | OpenAPI 3.0 documentation for all REST API endpoints |
 
 ---
 
@@ -187,6 +224,96 @@ The generic `Repository<T, ID>` interface defines the four CRUD operations once.
 | `RepositoryFactory` | `src/factories/` | Returns the correct implementation based on storage type |
 
 **Why Factory Pattern over Dependency Injection:** The factory keeps the codebase self-contained without requiring a DI framework. The rest of the system asks the factory for a repository and never needs to know which implementation it gets back. Switching from `MEMORY` to `DATABASE` in future requires changing one string.
+
+---
+
+## Service Layer and REST API
+
+The service layer and REST API were added in Assignment 12. The architecture follows a clean three-layer structure where the repository handles persistence, the service handles business logic, and the controller handles HTTP concerns.
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/students` | Return all students |
+| GET | `/api/students/{id}` | Return a student by ID |
+| POST | `/api/students` | Register a new student |
+| PUT | `/api/students/{id}` | Update a student |
+| DELETE | `/api/students/{id}` | Delete a student |
+| GET | `/api/courses` | Return all courses |
+| GET | `/api/courses/active` | Return only active courses |
+| GET | `/api/courses/{id}` | Return a course by ID |
+| GET | `/api/courses/category/{category}` | Return courses by category |
+| POST | `/api/courses` | Create a new course |
+| PUT | `/api/courses/{id}` | Update a course |
+| DELETE | `/api/courses/{id}` | Deactivate a course |
+| GET | `/api/enrollments` | Return all enrollments |
+| GET | `/api/enrollments/{id}` | Return an enrollment by ID |
+| GET | `/api/enrollments/student/{studentId}` | Return enrollments for a student |
+| POST | `/api/enrollments` | Enroll a student in a course |
+| PUT | `/api/enrollments/{id}/activate` | Activate a pending enrollment |
+| DELETE | `/api/enrollments/{id}` | Cancel an enrollment |
+
+### Running the Application
+
+Requirements: Java 17 or later, Maven 3.8 or later.
+
+```bash
+# Start the Spring Boot application
+mvn spring-boot:run
+
+# The API will be available at
+http://localhost:8080
+```
+
+### Swagger UI
+
+Once the application is running, the full API documentation is available at:
+
+```
+http://localhost:8080/swagger-ui.html
+```
+
+The raw OpenAPI specification is also available in `docs/openapi.yaml`.
+
+---
+
+## CI/CD Pipeline
+
+The Bello Beauty Academy Platform uses GitHub Actions for continuous integration and continuous delivery. The pipeline is defined in `.github/workflows/ci.yml`.
+
+### How the CI Pipeline Works
+
+The CI pipeline triggers automatically on every push to any branch and on every pull request targeting `main`. It sets up Java 21, restores cached Maven dependencies, and runs all 153 tests. If any test fails the workflow fails and the pull request is blocked from merging.
+
+### How the CD Pipeline Works
+
+The CD pipeline runs only when code is merged to `main`. It builds a release JAR using `mvn package` and uploads it as a downloadable artifact in the GitHub Actions run summary. The artifact is retained for 30 days.
+
+### How to Run Tests Locally
+
+```bash
+# Run all tests
+mvn clean test
+
+# Run a specific test class
+mvn test -Dtest=TestSingleton
+
+# Run with coverage report
+mvn test jacoco:report
+```
+
+### How to Trigger the Pipeline
+
+Push to any branch or open a pull request to `main`. The pipeline runs automatically. You can view the results at:
+
+```
+https://github.com/Aaniquah222641495/bello-beauty-academy/actions
+```
+
+### Branch Protection
+
+The `main` branch is protected. Direct pushes are blocked. All changes must go through a pull request that has been reviewed and has passed the CI pipeline. See [PROTECTION.md](./docs/PROTECTION.md) for full details.
 
 ---
 
