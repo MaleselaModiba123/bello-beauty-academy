@@ -5,6 +5,46 @@ All notable changes to this project are documented in this file.
 
 ---
 
+## [Assignment 13] — May 2026
+
+### Added
+
+**GitHub Actions CI/CD Pipeline: `.github/workflows/`**
+- `ci.yml`: two-job GitHub Actions workflow. Job 1 runs all 153 tests on every push to any branch and on every pull request targeting main. Job 2 builds and uploads a release JAR artifact only when code is merged to main. Maven dependency caching is used to speed up pipeline runs. Test reports are uploaded as artifacts on every run.
+
+**Documentation: `docs/`**
+- `PROTECTION.md`: explains the branch protection rules configured on the main branch, why each rule matters, and how the pull request workflow enforces code quality and automated testing before any code reaches main.
+
+### Updated
+
+**Documentation**
+- `README.md`: updated with CI/CD pipeline section, branch protection explanation, how to run tests locally, how the CI and CD pipelines work, how artifacts are generated, and a link to PROTECTION.md
+- `CHANGELOG.md`: this entry
+
+### Branch Protection
+
+Branch protection rules were configured on the main branch:
+- Require pull request before merging
+- Require at least 1 approval
+- Require CI/CD Pipeline status check to pass before merging
+- Block direct pushes to main
+- Enforce rules for administrators
+
+### GitHub Project Board
+
+A new **Assignment 13** milestone was created to track all work for this assignment.
+
+Five issues were created on the Assignment 13 milestone and linked to Project Board 5:
+- #84 Configure branch protection rules for main branch
+- #85 Create CI workflow for automated test execution
+- #86 Extend CI workflow with CD artifact generation on main
+- #87 Write PROTECTION.md explaining branch protection rules
+- #88 Update README and CHANGELOG for Assignment 13
+
+All issues are assigned, linked to the Assignment 13 milestone, and moved to Done on the Kanban board.
+
+---
+
 ## [Assignment 12] — May 2026
 
 ### Added
