@@ -1,4 +1,4 @@
-package api;
+package config;
 
 import factories.RepositoryFactory;
 import org.springframework.context.annotation.Bean;
