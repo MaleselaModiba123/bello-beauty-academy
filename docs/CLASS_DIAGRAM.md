@@ -1,9 +1,9 @@
 # Class Diagram
 ## Bello Beauty Academy Platform
 
-**Document Version:** 2.0
+**Document Version:** 3.0
 **Date:** May 2026
-**Status:** Updated — Assignment 11
+**Status:** Updated — Assignment 12
 
 ---
 
@@ -12,6 +12,7 @@
 1. [Class Diagram](#1-class-diagram)
 2. [Design Decisions](#2-design-decisions)
 3. [Repository Layer Class Diagram](#3-repository-layer-class-diagram)
+4. [Service and API Layer Architecture Diagram](#4-service-and-api-layer-architecture-diagram)
 
 ---
 
@@ -474,3 +475,229 @@ classDiagram
 **Factory Pattern over Dependency Injection:** The `RepositoryFactory` keeps the codebase simple and self-contained without requiring a DI container. The factory achieves the same decoupling goal: the rest of the system asks the factory for a repository and never needs to know which implementation it gets back.
 
 **Stubs over full implementations:** The `DatabaseStudentRepository` and `FileSystemCourseRepository` stubs prove that the architecture supports future backends without any changes to the interfaces or the factory. A new developer can implement either stub fully by filling in the method bodies without touching any other class.
+
+
+---
+
+## 4. Service and API Layer Architecture Diagram
+
+This section was added in Assignment 12. It shows the full three-layer clean architecture of the Bello Beauty Academy Platform, including the Repository Layer from Assignment 11, the Service Layer, and the REST API Layer added in Assignment 12. The diagram shows the dependency flow between layers and the components within each layer.
+
+```mermaid
+classDiagram
+
+    %% ─────────────────────────────────────────
+    %% REST API LAYER
+    %% ─────────────────────────────────────────
+    class StudentController {
+        -studentService : StudentService
+        +getAllStudents() ResponseEntity
+        +getStudentById(String) ResponseEntity
+        +registerStudent(Student) ResponseEntity
+        +updateStudent(String, Student) ResponseEntity
+        +deleteStudent(String) ResponseEntity
+    }
+
+    class CourseController {
+        -courseService : CourseService
+        +getAllCourses() ResponseEntity
+        +getActiveCourses() ResponseEntity
+        +getCourseById(String) ResponseEntity
+        +getCoursesByCategory(String) ResponseEntity
+        +createCourse(Course) ResponseEntity
+        +updateCourse(String, Course) ResponseEntity
+        +deactivateCourse(String) ResponseEntity
+    }
+
+    class EnrollmentController {
+        -enrollmentService : EnrollmentService
+        +getAllEnrollments() ResponseEntity
+        +getEnrollmentById(String) ResponseEntity
+        +getEnrollmentsByStudent(String) ResponseEntity
+        +enrollStudent(Enrollment) ResponseEntity
+        +activateEnrollment(String) ResponseEntity
+        +cancelEnrollment(String) ResponseEntity
+    }
+
+    %% ─────────────────────────────────────────
+    %% SERVICE LAYER
+    %% ─────────────────────────────────────────
+    class StudentService {
+        -studentRepository : StudentRepository
+        +registerStudent(Student) Student
+        +getStudentById(String) Student
+        +getAllStudents() List~Student~
+        +updateStudent(String, Student) Student
+        +deleteStudent(String) void
+    }
+
+    class CourseService {
+        -courseRepository : CourseRepository
+        +createCourse(Course) Course
+        +getCourseById(String) Course
+        +getAllCourses() List~Course~
+        +getActiveCourses() List~Course~
+        +getCoursesByCategory(CourseCategory) List~Course~
+        +updateCourse(String, Course) Course
+        +deactivateCourse(String) void
+    }
+
+    class EnrollmentService {
+        -enrollmentRepository : EnrollmentRepository
+        -studentRepository : StudentRepository
+        -courseRepository : CourseRepository
+        +enrollStudent(Enrollment) Enrollment
+        +getEnrollmentById(String) Enrollment
+        +getAllEnrollments() List~Enrollment~
+        +getEnrollmentsByStudent(String) List~Enrollment~
+        +activateEnrollment(String) Enrollment
+        +cancelEnrollment(String) void
+    }
+
+    %% ─────────────────────────────────────────
+    %% CUSTOM EXCEPTIONS
+    %% ─────────────────────────────────────────
+    class StudentNotFoundException {
+        +StudentNotFoundException(String id)
+    }
+
+    class CourseNotFoundException {
+        +CourseNotFoundException(String id)
+    }
+
+    class EnrollmentNotFoundException {
+        +EnrollmentNotFoundException(String id)
+    }
+
+    class DuplicateEnrollmentException {
+        +DuplicateEnrollmentException(String studentId, String courseId)
+    }
+
+    class CourseNotActiveException {
+        +CourseNotActiveException(String courseId)
+    }
+
+    %% ─────────────────────────────────────────
+    %% REPOSITORY LAYER
+    %% ─────────────────────────────────────────
+    class StudentRepository {
+        <<interface>>
+        +save(Student) void
+        +findById(String) Optional~Student~
+        +findAll() List~Student~
+        +delete(String) void
+        +findByEmail(String) Optional~Student~
+        +findActiveStudents() List~Student~
+    }
+
+    class CourseRepository {
+        <<interface>>
+        +save(Course) void
+        +findById(String) Optional~Course~
+        +findAll() List~Course~
+        +delete(String) void
+        +findActiveCourses() List~Course~
+        +findByCategory(CourseCategory) List~Course~
+    }
+
+    class EnrollmentRepository {
+        <<interface>>
+        +save(Enrollment) void
+        +findById(String) Optional~Enrollment~
+        +findAll() List~Enrollment~
+        +delete(String) void
+        +findByStudentId(String) List~Enrollment~
+        +findByCourseId(String) List~Enrollment~
+        +findByStatus(EnrollmentStatus) List~Enrollment~
+    }
+
+    %% ─────────────────────────────────────────
+    %% DOMAIN ENTITIES
+    %% ─────────────────────────────────────────
+    class Student {
+        -userId : String
+        -name : String
+        -email : String
+    }
+
+    class Course {
+        -courseId : String
+        -title : String
+        -active : Boolean
+        +deactivate() void
+    }
+
+    class Enrollment {
+        -enrollmentId : String
+        -status : EnrollmentStatus
+        +activate() void
+        +complete() void
+        +cancel() void
+    }
+
+    %% ─────────────────────────────────────────
+    %% API LAYER → SERVICE LAYER (dependency)
+    %% ─────────────────────────────────────────
+    StudentController ..> StudentService : delegates to
+    CourseController ..> CourseService : delegates to
+    EnrollmentController ..> EnrollmentService : delegates to
+
+    %% ─────────────────────────────────────────
+    %% SERVICE LAYER → REPOSITORY LAYER (dependency)
+    %% ─────────────────────────────────────────
+    StudentService ..> StudentRepository : uses
+    CourseService ..> CourseRepository : uses
+    EnrollmentService ..> EnrollmentRepository : uses
+    EnrollmentService ..> StudentRepository : uses
+    EnrollmentService ..> CourseRepository : uses
+
+    %% ─────────────────────────────────────────
+    %% SERVICE LAYER → EXCEPTIONS
+    %% ─────────────────────────────────────────
+    StudentService ..> StudentNotFoundException : throws
+    CourseService ..> CourseNotFoundException : throws
+    EnrollmentService ..> EnrollmentNotFoundException : throws
+    EnrollmentService ..> DuplicateEnrollmentException : throws
+    EnrollmentService ..> CourseNotActiveException : throws
+
+    %% ─────────────────────────────────────────
+    %% REPOSITORY LAYER → DOMAIN ENTITIES
+    %% ─────────────────────────────────────────
+    StudentRepository ..> Student : manages
+    CourseRepository ..> Course : manages
+    EnrollmentRepository ..> Enrollment : manages
+```
+
+### 4.1 Layer Responsibilities
+
+**REST API Layer (`src/api/`):** Controllers are thin. They receive HTTP requests, delegate all business logic to the service layer, and return HTTP responses with appropriate status codes. No business logic lives in a controller.
+
+**Service Layer (`src/services/`):** Services own all business logic. They validate inputs, enforce business rules such as duplicate checks and invalid state transitions, and use repositories for persistence. Services are the only layer that throws custom exceptions.
+
+**Repository Layer (`src/repositories/`):** Repositories are responsible only for persistence operations. They do not contain business logic. The in-memory HashMap implementations are used for development and testing. The `RepositoryFactory` returns the correct implementation based on storage type.
+
+**Domain Entities (`src/models/`):** Core data objects with state transition methods. They enforce their own invariants (e.g. `Enrollment.cancel()` throws if the enrollment is already completed).
+
+### 4.2 Dependency Flow
+
+The dependency flow is strictly one-directional and follows clean architecture:
+
+```
+HTTP Request
+     ↓
+Controller (API Layer)
+     ↓
+Service (Business Logic Layer)
+     ↓
+Repository (Persistence Layer)
+     ↓
+Domain Entity (Data Layer)
+```
+
+No layer ever depends on a layer above it. The Repository does not know the Service exists. The Service does not know the Controller exists. This makes each layer independently testable and replaceable.
+
+### 4.3 Why Service Layers Matter
+
+Without a service layer, business logic ends up in controllers. This is called a "fat controller" and is a common anti-pattern. Fat controllers are hard to test because they mix HTTP concerns with business rules, hard to reuse because the logic is tied to a specific endpoint, and hard to maintain because a single change can break multiple endpoints at once.
+
+The service layer solves this by acting as the single source of truth for all business rules. The same `EnrollmentService.enrollStudent()` method can be called from a REST controller, a scheduled job, or a test with identical behaviour. The controller only needs to know how to translate HTTP into a service call and how to translate the result back into HTTP.
