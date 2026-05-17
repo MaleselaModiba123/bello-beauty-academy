@@ -45,6 +45,46 @@ All issues are assigned, linked to the Assignment 13 milestone, and moved to Don
 
 ---
 
+## [Assignment 13] — May 2026
+
+### Added
+
+**CI/CD Pipeline: `.github/workflows/`**
+- `ci.yml`: GitHub Actions workflow with two jobs — Build and Test runs all tests on every push to any branch and on every pull request to main; Build Release Artifact runs only on push to main and uploads the release JAR as a downloadable artifact
+
+**Documentation: `docs/`**
+- `PROTECTION.md`: explains all branch protection rules configured on main including PR reviews, status checks, and direct push blocking with real-world DevOps justification
+- `docs/screenshots/branch-protection-rules.png`: screenshot of branch protection settings
+- `docs/screenshots/ci-pipeline-success.png`: screenshot of successful CI pipeline run
+- `docs/screenshots/ci-artifact.png`: screenshot of generated JAR artifact
+
+**Test Fixes**
+- `tests/api/TestApplication.java`: test-only Spring Boot configuration class in the api package that gives @SpringBootTest the @SpringBootConfiguration it needs
+- `tests/api/ApiIntegrationTest.java`: updated to use TestApplication.class instead of BelloBeautyAcademyApplication.class
+- `tests/TestSingleton.java`: fixed cloningThrows test to use explicit try/catch block instead of method reference for protected clone() method
+- `src/creational_patterns/singleton/DatabaseConnectionManager.java`: changed clone() access modifier from protected to public to allow test access
+
+### Updated
+
+**Documentation**
+- `README.md`: updated with CI/CD pipeline section explaining how the CI and CD pipelines work, how to trigger the pipeline, and branch protection information
+- `CHANGELOG.md`: this entry
+
+### GitHub Project Board
+
+A new **Assignment 13** milestone was created to track all work for this assignment.
+
+Five issues were created on the Assignment 13 milestone and linked to Project Board 5:
+- #84 Configure branch protection rules for main branch
+- #85 Create CI workflow for automated test execution
+- #86 Extend CI workflow with CD artifact generation on main
+- #87 Write PROTECTION.md explaining branch protection rules
+- #88 Update README and CHANGELOG for Assignment 13
+
+All issues are assigned, linked to the Assignment 13 milestone, and moved to Done on the Kanban board.
+
+---
+
 ## [Assignment 12] — May 2026
 
 ### Added
