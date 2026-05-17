@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # 💅 Bello Beauty Academy
 
 > A modern, full stack web-based Beauty Training Academy Management System for professional beauty certification programs.
@@ -182,6 +181,7 @@ bello-beauty-academy/
 | [CLASS_DIAGRAM.md](./docs/CLASS_DIAGRAM.md) | Full Mermaid.js class diagram with design decisions, multiplicity explanations, and repository layer diagram (updated Assignment 11) |
 | [ASSIGNMENT9_REFLECTION.md](./docs/ASSIGNMENT9_REFLECTION.md) | Reflection on domain modeling and class diagram development |
 | [CHANGELOG.md](./CHANGELOG.md) | Record of all changes introduced per assignment |
+| [docs/PROTECTION.md](./docs/PROTECTION.md) | Branch protection rules explanation and justification (Assignment 13) |
 | [docs/openapi.yaml](./docs/openapi.yaml) | OpenAPI 3.0 documentation for all REST API endpoints |
 
 ---
