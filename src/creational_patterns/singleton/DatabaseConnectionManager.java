@@ -59,10 +59,9 @@ public final class DatabaseConnectionManager {
 
     // stops anyone from cloning the singleton to get a second instance
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException("DatabaseConnectionManager is a Singleton.");
     }
-
     @Override
     public String toString() {
         return String.format("DatabaseConnectionManager[url=%s, active=%d/%d]",
