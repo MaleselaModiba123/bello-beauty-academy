@@ -8,6 +8,7 @@
 ![Language](https://img.shields.io/badge/Language-Java-orange)
 ![Build](https://img.shields.io/badge/Build-Maven-blue)
 ![Tests](https://img.shields.io/badge/Tests-JUnit%205-green)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-blue)
 
 ---
 
@@ -36,6 +37,10 @@ Once fully developed, the Bello Beauty Academy Platform will provide a complete 
 
 ```
 bello-beauty-academy/
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml                      ← GitHub Actions CI/CD pipeline
 │
 ├── README.md                           ← You are here
 ├── CHANGELOG.md                        ← Record of all changes per assignment
@@ -176,6 +181,7 @@ bello-beauty-academy/
 | [CLASS_DIAGRAM.md](./docs/CLASS_DIAGRAM.md) | Full Mermaid.js class diagram with design decisions, multiplicity explanations, and repository layer diagram (updated Assignment 11) |
 | [ASSIGNMENT9_REFLECTION.md](./docs/ASSIGNMENT9_REFLECTION.md) | Reflection on domain modeling and class diagram development |
 | [CHANGELOG.md](./CHANGELOG.md) | Record of all changes introduced per assignment |
+| [docs/PROTECTION.md](./docs/PROTECTION.md) | Branch protection rules explanation and justification (Assignment 13) |
 | [docs/openapi.yaml](./docs/openapi.yaml) | OpenAPI 3.0 documentation for all REST API endpoints |
 
 ---
@@ -270,6 +276,45 @@ http://localhost:8080/swagger-ui.html
 ```
 
 The raw OpenAPI specification is also available in `docs/openapi.yaml`.
+
+---
+
+## CI/CD Pipeline
+
+The Bello Beauty Academy Platform uses GitHub Actions for continuous integration and continuous delivery. The pipeline is defined in `.github/workflows/ci.yml`.
+
+### How the CI Pipeline Works
+
+The CI pipeline triggers automatically on every push to any branch and on every pull request targeting `main`. It sets up Java 21, restores cached Maven dependencies, and runs all 153 tests. If any test fails the workflow fails and the pull request is blocked from merging.
+
+### How the CD Pipeline Works
+
+The CD pipeline runs only when code is merged to `main`. It builds a release JAR using `mvn package` and uploads it as a downloadable artifact in the GitHub Actions run summary. The artifact is retained for 30 days.
+
+### How to Run Tests Locally
+
+```bash
+# Run all tests
+mvn clean test
+
+# Run a specific test class
+mvn test -Dtest=TestSingleton
+
+# Run with coverage report
+mvn test jacoco:report
+```
+
+### How to Trigger the Pipeline
+
+Push to any branch or open a pull request to `main`. The pipeline runs automatically. You can view the results at:
+
+```
+https://github.com/Aaniquah222641495/bello-beauty-academy/actions
+```
+
+### Branch Protection
+
+The `main` branch is protected. Direct pushes are blocked. All changes must go through a pull request that has been reviewed and has passed the CI pipeline. See [PROTECTION.md](./docs/PROTECTION.md) for full details.
 
 ---
 
