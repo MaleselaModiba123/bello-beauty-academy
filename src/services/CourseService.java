@@ -3,12 +3,14 @@ package services;
 import exceptions.CourseNotFoundException;
 import models.Course;
 import models.CourseCategory;
+import org.springframework.stereotype.Service;
 import repositories.CourseRepository;
 
 import java.util.List;
 
 // handles all course-related business logic
 // uses CourseRepository for persistence — no direct storage here
+@Service
 public class CourseService {
 
     private final CourseRepository courseRepository;
