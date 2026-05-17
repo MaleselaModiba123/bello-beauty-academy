@@ -45,13 +45,28 @@ All notable changes to this project are documented in this file.
 - `src/models/Course.java`: added `deactivate()` state transition method
 
 **Build Configuration**
-- `pom.xml`: updated with Spring Boot 3.2.5 parent, spring-boot-starter-web, Mockito, and spring-boot-starter-test dependencies
-- `src/BelloBeautyAcademyApplication.java`: Spring Boot application entry point
+- `pom.xml`: updated with Spring Boot 3.2.5 parent, spring-boot-starter-web, Mockito 5.11.0, spring-boot-starter-test, and springdoc-openapi-starter-webmvc-ui 2.5.0 dependencies
+- `src/api/BelloBeautyAcademyApplication.java`: Spring Boot application entry point in the api package with component scan covering api, services, repositories, exceptions, and config packages
+
+**Spring Configuration: `src/config/`**
+- `AppConfig.java`: registers in-memory repository implementations as Spring beans using RepositoryFactory, enabling constructor injection into the service layer
+- `OpenApiConfig.java`: configures the Swagger UI title, description, and version shown at the top of the API documentation page
 
 **Documentation**
-- `README.md`: updated with service layer section, REST API endpoint table, application run instructions, and Swagger UI instructions
+- `README.md`: updated with service layer section, REST API endpoint table, application run instructions, Swagger UI instructions, and screenshots folder in repository structure
+- `docs/ARCHITECTURE.md`: updated to version 2.0 with Section 11 added showing Swagger UI screenshots for all three controllers
 - `docs/CLASS_DIAGRAM.md`: updated to version 3.0 with Section 4 added showing the full three-layer architecture diagram
+- `docs/screenshots/swagger-ui-overview.png`: Swagger UI overview showing all three controllers
+- `docs/screenshots/swagger-ui-students-1.png`: Student controller endpoints part 1
+- `docs/screenshots/swagger-ui-students-2.png`: Student controller endpoints part 2
+- `docs/screenshots/swagger-ui-courses.png`: Course controller endpoints
+- `docs/screenshots/swagger-ui-enrollments-1.png`: Enrollment controller endpoints part 1
+- `docs/screenshots/swagger-ui-enrollments-2.png`: Enrollment controller endpoints part 2
 - `CHANGELOG.md`: this entry
+
+**Spring Boot Configuration**
+- `src/config/AppConfig.java`: registers in-memory repository implementations as Spring beans via RepositoryFactory
+- `src/config/OpenApiConfig.java`: configures Swagger UI title, description, and version
 
 ### Bug Fixes
 
