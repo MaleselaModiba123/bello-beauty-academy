@@ -12,10 +12,10 @@ This roadmap outlines the planned future features and enhancements for the Bello
 ## Table of Contents
 
 1. [Current State](#1-current-state)
-2. [Phase 2 — Payment and Notifications](#2-phase-2--payment-and-notifications)
-3. [Phase 3 — Mobile and Virtual Learning](#3-phase-3--mobile-and-virtual-learning)
-4. [Phase 4 — Analytics and Reporting](#4-phase-4--analytics-and-reporting)
-5. [Phase 5 — Infrastructure and Performance](#5-phase-5--infrastructure-and-performance)
+2. [Phase 2 - Payment and Notifications](#2-phase-2--payment-and-notifications)
+3. [Phase 3 - Mobile and Virtual Learning](#3-phase-3--mobile-and-virtual-learning)
+4. [Phase 4 - Analytics and Reporting](#4-phase-4--analytics-and-reporting)
+5. [Phase 5 - Infrastructure and Performance](#5-phase-5--infrastructure-and-performance)
 6. [Open for Contribution](#6-open-for-contribution)
 
 ---
@@ -39,7 +39,7 @@ The following features are implemented and available in the current release:
 
 ---
 
-## 2. Phase 2 — Payment and Notifications
+## 2. Phase 2 - Payment and Notifications
 
 **Target:** Next release
 
@@ -64,7 +64,7 @@ Send SMS alerts for critical events such as payment confirmation and schedule ch
 
 ---
 
-## 3. Phase 3 — Mobile and Virtual Learning
+## 3. Phase 3 - Mobile and Virtual Learning
 
 **Target:** Future release
 
@@ -85,7 +85,7 @@ Integrate with a video conferencing API (Zoom or Google Meet) to support remote 
 
 ---
 
-## 4. Phase 4 — Analytics and Reporting
+## 4. Phase 4 - Analytics and Reporting
 
 **Target:** Future release
 
@@ -113,7 +113,7 @@ A public-facing page where employers and clients can verify the authenticity of 
 
 ---
 
-## 5. Phase 5 — Infrastructure and Performance
+## 5. Phase 5 - Infrastructure and Performance
 
 **Target:** Future release
 

@@ -40,7 +40,7 @@ The most significant challenge was that the project was not originally designed 
 
 The fact that `BelloBeautyAcademyApplication` is in the `api` package rather than the root `src` directory is a good example. The reason it ended up there was a series of technical decisions made during Assignment 12 to resolve Spring Boot component scanning behaviour across non-standard source roots. None of that context existed anywhere in the codebase until CONTRIBUTING.md was written. Onboarding documentation forces you to explain decisions you made under pressure and never documented, which is an uncomfortable but valuable exercise.
 
-The absence of pull requests from peers during the review period, despite 28 forks, also highlighted a challenge inherent to short-term peer review. A developer who forks a repository on Monday and is expected to submit a meaningful pull request by Friday has a very narrow window to understand the architecture, set up the environment, identify a suitable issue, write code that meets the existing standards, and navigate the pull request workflow. Real open-source projects typically see a long tail of engagement where most forks never produce pull requests. The ones that do usually come from contributors who spent weeks exploring the codebase before writing a single line.
+The absence of pull requests from peers during the review period, despite 27 forks, also highlighted a challenge inherent to short-term peer review. A developer who forks a repository on Monday and is expected to submit a meaningful pull request by Friday has a very narrow window to understand the architecture, set up the environment, identify a suitable issue, write code that meets the existing standards, and navigate the pull request workflow. Real open-source projects typically see a long tail of engagement where most forks never produce pull requests. The ones that do usually come from contributors who spent weeks exploring the codebase before writing a single line.
 
 ---
 
@@ -52,7 +52,7 @@ The second lesson is that labels and issue structure matter more than I expected
 
 The third lesson is about the relationship between CI/CD and contributor confidence. The comment from Reviewer 5 about the CI/CD pipeline being impressive highlighted something I had not fully appreciated before: the pipeline is not just a quality tool for the maintainer, it is a safety net for contributors. A new contributor does not need to fully understand the entire codebase before submitting a change. They just need to make their change, push it, and let the pipeline tell them if anything broke. Without this safety net, every pull request is a risk and most people will choose not to take that risk.
 
-Finally this assignment reinforced that open-source readiness is not a binary state. The 28 forks and 26 stars this repository received are a starting point, not an endpoint. A repository becomes more contributor-friendly incrementally, through every documentation improvement, every well-scoped issue, every helpful code review comment, and every time a new contributor successfully submits their first pull request.
+Finally this assignment reinforced that open-source readiness is not a binary state. The 27 forks and 25 stars this repository received are a starting point, not an endpoint. A repository becomes more contributor-friendly incrementally, through every documentation improvement, every well-scoped issue, every helpful code review comment, and every time a new contributor successfully submits their first pull request.
 
 ---
 

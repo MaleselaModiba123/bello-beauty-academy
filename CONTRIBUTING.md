@@ -112,7 +112,7 @@ bello-beauty-academy/
 - Follow standard Java naming conventions: `camelCase` for methods and variables, `PascalCase` for classes, `UPPER_SNAKE_CASE` for constants
 - Use `Optional<T>` instead of returning `null`
 - Throw meaningful custom exceptions from the `exceptions` package rather than generic `RuntimeException`
-- Keep business logic in the service layer — controllers must remain thin
+- Keep business logic in the service layer - controllers must remain thin
 
 ### Testing
 
@@ -172,7 +172,7 @@ git push origin feature/your-feature-name
 3. Set the base branch to `main`
 4. Fill in the pull request description explaining what you changed and why
 5. Reference the issue your PR resolves using `Closes #issue-number`
-6. Wait for the CI pipeline to pass — the PR cannot be merged if tests fail
+6. Wait for the CI pipeline to pass - the PR cannot be merged if tests fail
 7. Request a review from a maintainer
 
 ### Pull request checklist
