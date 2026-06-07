@@ -5,6 +5,50 @@ All notable changes to this project are documented in this file.
 
 ---
 
+## [Assignment 14] — May 2026
+
+### Added
+
+**Root level files**
+- `CONTRIBUTING.md`: full contributor guide covering prerequisites, setup instructions, coding standards, branch naming conventions, commit message format, and pull request process
+- `ROADMAP.md`: planned future features across five phases including PayFast payment integration, React Native mobile app, PostgreSQL database layer, Redis caching, and AWS S3 file storage
+- `LICENSE`: MIT License granting permission to use, copy, modify, and distribute the software
+- `VOTING_RESULTS.md`: peer engagement results including 25 stars, 27 forks, and feedback from 6 reviewers
+- `REFLECTION.md`: 820-word reflection on open-source collaboration, peer feedback, and lessons learned about contributor onboarding
+
+**Labeled Issues for Contributors**
+- #104 Add input validation to all API request bodies — labeled `good-first-issue`
+- #105 Add pagination to GET /api/courses endpoint — labeled `good-first-issue`
+- #106 Write missing unit tests for CourseServiceTest edge cases — labeled `good-first-issue`
+- #107 Add GET /api/students/active endpoint — labeled `good-first-issue`
+- #108 Add Javadoc comments to all service classes — labeled `good-first-issue`
+- #109 Implement PayFast online payment gateway integration — labeled `feature-request`
+- #110 Implement PostgreSQL database repository layer — labeled `feature-request`
+- #111 Add Redis caching for course catalogue — labeled `feature-request`
+
+### Updated
+
+**Documentation**
+- `README.md`: updated with Getting Started section, Features for Contribution table, and links to CONTRIBUTING.md and ROADMAP.md
+- `CHANGELOG.md`: this entry
+
+### GitHub Project Board
+
+A new **Assignment 14** milestone was created to track all work for this assignment.
+
+Seven issues were created on the Assignment 14 milestone and linked to Project Board 5:
+- #97 Add CONTRIBUTING.md with setup and contribution guidelines
+- #98 Add ROADMAP.md with future features
+- #99 Add LICENSE file
+- #100 Label issues as good-first-issue and feature-request
+- #101 Add VOTING_RESULTS.md with peer engagement data
+- #102 Add REFLECTION.md on open-source collaboration
+- #103 Update README with Getting Started section and contribution table
+
+All issues are assigned, linked to the Assignment 14 milestone, and moved to Done on the Kanban board.
+
+---
+
 ## [Assignment 13] — May 2026
 
 ### Added
@@ -42,6 +86,50 @@ Five issues were created on the Assignment 13 milestone and linked to Project Bo
 - #88 Update README and CHANGELOG for Assignment 13
 
 All issues are assigned, linked to the Assignment 13 milestone, and moved to Done on the Kanban board.
+
+---
+
+## [Assignment 14] — May 2026
+
+### Added
+
+**Root level files**
+- `CONTRIBUTING.md`: full contributor guide covering prerequisites, setup instructions, coding standards, branch naming conventions, commit message format, and pull request process
+- `ROADMAP.md`: planned future features across five phases including PayFast payment integration, React Native mobile app, PostgreSQL database layer, Redis caching, and AWS S3 file storage
+- `LICENSE`: MIT License granting permission to use, copy, modify, and distribute the software
+- `VOTING_RESULTS.md`: peer engagement results including 25 stars, 27 forks, and feedback from 6 reviewers
+- `REFLECTION.md`: 820-word reflection on open-source collaboration, peer feedback, and lessons learned about contributor onboarding
+
+**Labeled Issues for Contributors**
+- #104 Add input validation to all API request bodies — labeled `good-first-issue`
+- #105 Add pagination to GET /api/courses endpoint — labeled `good-first-issue`
+- #106 Write missing unit tests for CourseServiceTest edge cases — labeled `good-first-issue`
+- #107 Add GET /api/students/active endpoint — labeled `good-first-issue`
+- #108 Add Javadoc comments to all service classes — labeled `good-first-issue`
+- #109 Implement PayFast online payment gateway integration — labeled `feature-request`
+- #110 Implement PostgreSQL database repository layer — labeled `feature-request`
+- #111 Add Redis caching for course catalogue — labeled `feature-request`
+
+### Updated
+
+**Documentation**
+- `README.md`: updated with Getting Started section, Features for Contribution table, and links to CONTRIBUTING.md and ROADMAP.md
+- `CHANGELOG.md`: this entry
+
+### GitHub Project Board
+
+A new **Assignment 14** milestone was created to track all work for this assignment.
+
+Seven issues were created on the Assignment 14 milestone and linked to Project Board 5:
+- #97 Add CONTRIBUTING.md with setup and contribution guidelines
+- #98 Add ROADMAP.md with future features
+- #99 Add LICENSE file
+- #100 Label issues as good-first-issue and feature-request
+- #101 Add VOTING_RESULTS.md with peer engagement data
+- #102 Add REFLECTION.md on open-source collaboration
+- #103 Update README with Getting Started section and contribution table
+
+All issues are assigned, linked to the Assignment 14 milestone, and moved to Done on the Kanban board.
 
 ---
 

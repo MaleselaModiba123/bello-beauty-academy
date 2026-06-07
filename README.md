@@ -9,6 +9,7 @@
 ![Build](https://img.shields.io/badge/Build-Maven-blue)
 ![Tests](https://img.shields.io/badge/Tests-JUnit%205-green)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
@@ -182,6 +183,10 @@ bello-beauty-academy/
 | [ASSIGNMENT9_REFLECTION.md](./docs/ASSIGNMENT9_REFLECTION.md) | Reflection on domain modeling and class diagram development |
 | [CHANGELOG.md](./CHANGELOG.md) | Record of all changes introduced per assignment |
 | [docs/PROTECTION.md](./docs/PROTECTION.md) | Branch protection rules explanation and justification (Assignment 13) |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | Setup instructions, coding standards, and pull request workflow for contributors |
+| [ROADMAP.md](./ROADMAP.md) | Planned future features and enhancements across five phases |
+| [VOTING_RESULTS.md](./VOTING_RESULTS.md) | Peer review engagement results including stars, forks, and reviewer comments |
+| [REFLECTION.md](./REFLECTION.md) | Reflection on open-source collaboration and peer review experience |
 | [docs/openapi.yaml](./docs/openapi.yaml) | OpenAPI 3.0 documentation for all REST API endpoints |
 
 ---
@@ -276,6 +281,55 @@ http://localhost:8080/swagger-ui.html
 ```
 
 The raw OpenAPI specification is also available in `docs/openapi.yaml`.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| Java JDK | 21 or later | Primary language |
+| Maven | 3.8 or later | Build and dependency management |
+| Git | Any recent version | Version control |
+| IntelliJ IDEA | Any version | Recommended IDE |
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Aaniquah222641495/bello-beauty-academy.git
+cd bello-beauty-academy
+
+# Build the project
+mvn clean install
+
+# Run the application
+mvn spring-boot:run
+```
+
+The API will be available at `http://localhost:8080`.
+The Swagger UI will be available at `http://localhost:8080/swagger-ui/index.html`.
+
+### Contributing
+
+We welcome contributions from all skill levels. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full setup guide, coding standards, and pull request process.
+
+See [ROADMAP.md](./ROADMAP.md) for planned features you can contribute to.
+
+### Features for Contribution
+
+| Feature | Difficulty | Label | Status |
+|---------|------------|-------|--------|
+| Add input validation to API request bodies | Beginner | `good-first-issue` | Open |
+| Add pagination to GET /api/courses | Beginner | `good-first-issue` | Open |
+| Write missing CourseServiceTest edge case tests | Beginner | `good-first-issue` | Open |
+| Add GET /api/students/active endpoint | Beginner | `good-first-issue` | Open |
+| Add Javadoc to all service classes | Beginner | `good-first-issue` | Open |
+| Implement PayFast payment gateway | Intermediate | `feature-request` | Open |
+| Implement PostgreSQL repository layer | Intermediate | `feature-request` | Open |
+| Add Redis caching for course catalogue | Intermediate | `feature-request` | Open |
 
 ---
 
